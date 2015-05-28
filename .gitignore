@@ -1,28 +1,22 @@
-# Compiled Object files
-*.slo
-*.lo
+# for cpp 
+
+*.pdb*
+*.swp
+*.swx
+
+#ignore *.a or *.o
+#*.[ao]  #not work in mobaxterm
 *.o
-*.obj
+./keep/
+#keep/*
 
-# Precompiled Headers
-*.gch
-*.pch
+a.out
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
 *.exe
-*.out
-*.app
+
+*.out*
+
+*.log*
+
+*.dat*
+
