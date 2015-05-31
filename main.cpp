@@ -2,8 +2,6 @@
 
 using namespace std;
 
-int calc(Inp_nishi);  // calc() is empty func. (written in calc.cpp)
-int quatnishi(Inp_nishi);
 int pcanishi(Inp_nishi);
 
 int main(int argc, char *argv[]){
@@ -18,17 +16,12 @@ int main(int argc, char *argv[]){
   cout<<"Your input-parameter file: "<<argv[1]<<endl;
 
 // INPUT_PARAMETERS
-   //Inp_nishi inp1( "parameter.txt" );
    Inp_nishi inp1( argv[1] );
    
-// DO quatnishi
-   //quatnishi(inp1);
-
 // DO pcanishi
    int rtrn = pcanishi( inp1 );
    if(rtrn==0)cout<<"\nend of pcanishi\n";
    if(rtrn==-1)cout<<"\nprogram was ended unsuccessfully\n";
-
 
 // END
 	cout<<"\n\nit took "<<(float)clock()/CLOCKS_PER_SEC<<" sec of CPU to execute this program"<<endl;
