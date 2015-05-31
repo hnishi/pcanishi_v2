@@ -175,50 +175,43 @@ int pcanishi(  Inp_nishi inp1 ){
  *
  * */
    cout<<" 3-5  calculate components along principle axis \n";
-	double* c1; double* c2;
-	double* c3; double* c4;
-	c1 = new double [frame]; c2 = new double [frame];
-	c3 = new double [frame]; c4 = new double [frame];
+	double c1[frame][dim_Q]; 
 
-	vector<double> buf_vec;
-
+	vector<double> buf_vec;  //for mapping, average_Q -> bef_vec -> Vector Q2
         for(unsigned int i=0;i<dim_Q;i++){
 	        buf_vec.push_back(average_Q[i]);
         }
 	VectorXd Q2=Map<VectorXd>(&buf_vec[0],buf_vec.size());
 	delete[] average_Q;
-        for(unsigned int n=0;n<frame;n++){
+
+        for(unsigned int n=0;n<frame;n++){  
 		buf_vec.clear();
                 for(unsigned int i=0;i<dim_Q;i++){
 			buf_vec.push_back(vec[i+n*dim_Q]);
 		}
-		VectorXd Q1=Map<VectorXd>(&buf_vec[0],buf_vec.size());
-        	c1[n] = es.eigenvectors().col(dim_Q-1).transpose() * ( Q1 - Q2 );
-		//cout<<"c1["<<n<<"] = "<<c1[n]<<endl;
-        	c2[n] = es.eigenvectors().col(dim_Q-2).transpose() * ( Q1 - Q2 );
-		//cout<<"c1["<<n<<"] = "<<c1[n]<<endl;
-        	c3[n] = es.eigenvectors().col(dim_Q-3).transpose() * ( Q1 - Q2 );
-        	c4[n] = es.eigenvectors().col(dim_Q-4).transpose() * ( Q1 - Q2 );
+		VectorXd Q1=Map<VectorXd>(&buf_vec[0],buf_vec.size());  //buf_vec -> Q1, raw data
+		for(unsigned int i=0;i<dim_Q;i++){ // Q - <Q>
+        	   c1[n][i] = es.eigenvectors().col( dim_Q -i -1 ).transpose() * ( Q1 - Q2 );
+		}
 	}	
 
-/* (4) output (write) c1 vs c2 
+/* (4) output OUT
 */
-	string c1c2out;
-	c1c2out = inp1.read("C1C2OUT").c_str();
-	if( c1c2out != "NO" ){
-		ofstream ofs;
-		ofs.open( c1c2out.c_str() );
+   for(unsigned int i=0;i<dim_Q;i++){
+      string pc_num;  char buf[256];
+      sprintf(buf,"pc%d%s.dat",i+1,outpcmarker.c_str());  //itoa()
+      pc_num = buf;
+      cout<<"\noutput section of "<<pc_num<<endl;
+
+	ofstream ofs;
+		ofs.open( pc_num.c_str() );
 	        for(unsigned int n=0;n<frame;n++){
-        		ofs<<c1[n]<<"   "<<c2[n]<<"   "<<c3[n]<<"   "<<c4[n]<<"   "<<n+1<<endl;
+        		ofs<<c1[n][i]<<endl;
 		}
-		ofs.close();
-   		cout<<"output "<<c1c2out<<" (for graph) \n";
-   	}
-	else{
-		cout<<"do not output C1C2OUT \n";
-	}
-	//delete[] c1; delete[] c2; 
-	delete[] c3; delete[] c4; 
+	ofs.close();
+   	cout<<"output \n";
+	ofs.close();
+   }
 /* (6) calculate contribution ratio of c1 and c2
  *     
  * */
@@ -227,54 +220,15 @@ int pcanishi(  Inp_nishi inp1 ){
    for(unsigned int i=0;i<dim_Q;i++){
       sum_lambda += es.eigenvalues()[i];
    }
-   double cntr_rt = (es.eigenvalues()[dim_Q - 1]) / sum_lambda;
-   cout<<"contribution ratio (PC1) = "<<cntr_rt<<endl;
-   cntr_rt = (es.eigenvalues()[dim_Q - 1] + es.eigenvalues()[dim_Q - 2]) / sum_lambda;
-   cout<<"contribution ratio (PC1 + PC2) = "<<cntr_rt<<endl;
-   cntr_rt = (es.eigenvalues()[dim_Q - 1] + es.eigenvalues()[dim_Q - 2] + es.eigenvalues()[dim_Q - 3]) / sum_lambda;
-   cout<<"contribution ratio (PC1 + PC2 + PC3) = "<<cntr_rt<<endl;
-   cntr_rt = (es.eigenvalues()[dim_Q - 1] + es.eigenvalues()[dim_Q - 2] + es.eigenvalues()[dim_Q - 3] + es.eigenvalues()[dim_Q - 4]) / sum_lambda;
-   cout<<"contribution ratio (PC1 + PC2 + PC3 + PC4) = "<<cntr_rt<<endl;
-
-
-/* (7) PMF calculation
- *
- * */
-   
-/*   ofstream ofs_pmf;
-   ofs_pmf.open("out_pmf.dat");
-   for(int i=0;i<num_bin;i++){
-      for(int j=0;j<num_bin;j++){
-         ofs_pmf<<min_c + length_bin * j<<"   "<<min_c + length_bin * i<<"   "<<pmf[j][i]<<endl;
-         //ofs_pmf<<format("%8.3f%8.3f%8.3f \n")  %(min_c + length_bin * j), %(min_c + length_bin * i), %pmf[j][i]; //not work
-      }
+   cout<<"Summation of eigen values = "<<sum_lambda<<endl<<endl;
+   double count_cntr_rt = 0;
+   for(unsigned int i=0;i<dim_Q;i++){ 
+      double cntr_rt;  //CoNTRibution_RaTion
+      cntr_rt = es.eigenvalues()[dim_Q - 1 -i] / sum_lambda; 
+      count_cntr_rt += cntr_rt;
+      cout<<"contribution ratio (PC"<<i+1<<") = "<<cntr_rt<<endl;
    }
-   ofs_pmf.close();
-
-   FILE *fout;
-   
-   string outpmf = inp1.read("OUTPMF");
-   if((fout = fopen( outpmf.c_str(),"w" )) == NULL ){
-      printf("cannot open output file: %s\n", outpmf.c_str() );
-      return 1;
-   }
-   for(int i=0;i<num_bin;i++){
-      for(int j=0;j<num_bin;j++){
-         if( pmf[j][i] == 0 ){
-         //fprintf(fout,"%12.3f%12.3f%12.3f \n", emin + length_bin * j + length_bin / 2, emin + length_bin * i + length_bin / 2, 0.0 );}else{
-         fprintf(fout,"%12.3f%12.3f%12.3f \n", emin + length_bin * j + length_bin / 2, emin + length_bin * i + length_bin / 2, 100.0 );
-         }
-         else{
-         //fprintf(fout,"%12.3f%12.3f%12.3f \n", emin + length_bin * j + length_bin / 2, emin + length_bin * i + length_bin / 2, (pmf[j][i] - max_pmf) / JOULE_CALORIE /1000 );
-         fprintf(fout,"%12.3f%12.3f%12.3f \n", emin + length_bin * j + length_bin / 2, emin + length_bin * i + length_bin / 2, (pmf[j][i] - min_pmf) / JOULE_CALORIE /1000 );
-         }
-      }
-      fprintf(fout,"\n");
-   }
-   fclose( fout );
-   cout<<"output "<<outpmf<<endl;
-   }*/
-//end:
+   cout<<"\nSummation of cntribution ratio = "<<count_cntr_rt<<endl;
 
 // END
         return 0;

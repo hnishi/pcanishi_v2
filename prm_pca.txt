@@ -6,7 +6,8 @@ IHFILE coord.dat   #this file should include one dimensional data for PCA
 
 # output
 OUTEIGEN out_eigen.txt  # Eigen values and vectors of the Variance co-variance matrix
-OUTPCA out_pca.dat  # Principal components in column-order, PC1, PC2, ...   
+#OUTPCA out_pca.dat  # Principal components in column-order, PC1, PC2, ...   
+OUTPCMARKER _coord #PC1, PC2, PC3, and so on will be output as named pc1"OUTPC".dat pc2"OUTPC".dat ...
 
 # infomation
 NUMOFSTRU 78 
