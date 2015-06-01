@@ -199,7 +199,7 @@ int pcanishi(  Inp_nishi inp1 ){
 */
    for(unsigned int i=0;i<dim_Q;i++){
       string pc_num;  char buf[256];
-      sprintf(buf,"pc%d%s.dat",i+1,outpcmarker.c_str());  //itoa()
+      sprintf(buf,"PC%d%s.dat",i+1,outpcmarker.c_str());  //itoa()
       pc_num = buf;
       cout<<"\noutput section of "<<pc_num<<endl;
 
