@@ -175,7 +175,8 @@ int pcanishi(  Inp_nishi inp1 ){
  *
  * */
    cout<<" 3-5  calculate components along principle axis \n";
-	double c1[frame][dim_Q]; 
+
+	//double c1[frame][dim_Q]; 
 
 	vector<double> buf_vec;  //for mapping, average_Q -> bef_vec -> Vector Q2
         for(unsigned int i=0;i<dim_Q;i++){
@@ -183,30 +184,35 @@ int pcanishi(  Inp_nishi inp1 ){
         }
 	VectorXd Q2=Map<VectorXd>(&buf_vec[0],buf_vec.size());
 	delete[] average_Q;
+	//cout<<"Vector Q2 was set"<<endl;
 
+   double c1[frame]; 
+   for(unsigned int j=0;j<dim_Q;j++){
         for(unsigned int n=0;n<frame;n++){  
 		buf_vec.clear();
                 for(unsigned int i=0;i<dim_Q;i++){
 			buf_vec.push_back(vec[i+n*dim_Q]);
 		}
-		VectorXd Q1=Map<VectorXd>(&buf_vec[0],buf_vec.size());  //buf_vec -> Q1, raw data
-		for(unsigned int i=0;i<dim_Q;i++){ // Q - <Q>
-        	   c1[n][i] = es.eigenvectors().col( dim_Q -i -1 ).transpose() * ( Q1 - Q2 );
-		}
+		VectorXd Q1 = Map<VectorXd>(&buf_vec[0],buf_vec.size());  //buf_vec -> Q1, raw data
+		//cout<<"Vector Q1 was set"<<endl;
+	        //for(unsigned int i=0;i<dim_Q;i++){ // Q - <Q>
+        	c1[n] = es.eigenvectors().col(dim_Q - j - 1).transpose()*( Q1 - Q2 );
+        	//cout<<"component = "<<c1[n]<<" , "<<n+1<<endl;
 	}	
+	//cout<<"PC was set"<<endl;
 
 /* (4) output OUT
 */
-   for(unsigned int i=0;i<dim_Q;i++){
+   //for(unsigned int i=0;i<dim_Q;i++){
       string pc_num;  char buf[256];
-      sprintf(buf,"PC%d%s.dat",i+1,outpcmarker.c_str());  //itoa()
+      sprintf(buf,"PC%d%s.dat",j+1,outpcmarker.c_str());  //itoa()
       pc_num = buf;
       cout<<"\noutput section of "<<pc_num<<endl;
 
 	ofstream ofs;
 		ofs.open( pc_num.c_str() );
 	        for(unsigned int n=0;n<frame;n++){
-        		ofs<<c1[n][i]<<endl;
+        		ofs<<c1[n]<<endl;
 		}
 	ofs.close();
    	cout<<"output \n";
