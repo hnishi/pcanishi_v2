@@ -1,4 +1,8 @@
 # extr_dista.cpp input-parameter file
+#
+# discription:
+#  distances of all against all atom pairs
+#
 
 # :::::::::      :::::::::::::::::::::::::::
 # input

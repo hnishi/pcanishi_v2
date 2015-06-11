@@ -8,7 +8,7 @@ REFPDBNAME  ../samp/for_rmsd/traj/crystal_1st.pdb
 COD1   ../samp/for_rmsd/traj/md_small.crd
 #COD2   ../samp/md_npt_10.cod
 #COD3   ../samp/npt_02.cod
-COD2   ../samp/for_rmsd/traj/md_small.crd
+#COD2   ../samp/for_rmsd/traj/md_small.crd
 #COD4
 
 # output
@@ -20,7 +20,7 @@ STRIDE 1   # mabiki
 STARTFRAME  1
 
 # selection
-PCAATOM  ca  # all: all atoms in pdb, protein: atoms without solvent (resn WAT, CIP and CIM), heavy: heavy atoms, ca: CA (atom name) atoms in mainchain, mainchain: CA, N, C and O atoms in mainchain 
+PCAATOM  heavy  # all: all atoms in pdb, protein: atoms without solvent (resn WAT, CIP and CIM), heavy: heavy atoms, ca: CA (atom name) atoms in mainchain, mainchain: CA, N, C and O atoms in mainchain 
 STARTCHAIN B space  B  # space; white space " " can be set using keyword "space" 
 STARTRES  210  #1  # 210
 ENDCHAIN B space   B  # space; white space " " can be set using keyword "space" 

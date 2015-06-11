@@ -55,18 +55,11 @@ int pcanishi(  Inp_nishi inp1 ){
       return 2;
    }
 
-/* (3) ATOM SELECTION
-*/
-   cout<<"\n--- ATOM SELECTION --- \n";
-
-   cout<<"\n--- READING REFERENCE STRUCTURE --- \n";
-
-   cout<<"\n--- PCA CALCULATION --- \n";
-   //cout<<endl<<"REPORT> (3) PCA calculation starts \n";
 /* ********\\
  * 3-1   create vector Q = (q1x,q1y,q1z,q2x,...,q20z) 
  *     
  * */
+   cout<<"\n--- PCA CALCULATION --- \n";
    //cout<<" 3-1  create vector Q \n";
    unsigned int dim_Q = numofcomp;
    cout<<"dimensionality of Q (components per one structure) is "<<dim_Q<<endl;

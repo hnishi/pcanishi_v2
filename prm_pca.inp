@@ -2,18 +2,22 @@
 
 # :::::::::   pca   :::::::::::::::::::::::::::
 # input
-IHFILE coord.dat   #this file should include one dimensional data for PCA
+#IHFILE coord.dat   #this file should include one dimensional data for PCA
 #IHFILE dista.dat   #this file should include one dimensional data for PCA
+IHFILE phipsi_h3.dat
 
 # output
-OUTEIGEN out_eigen.txt  # Eigen values and vectors of the Variance co-variance matrix
+OUTEIGEN outputPC/out_eigen.txt  # Eigen values and vectors of the Variance co-variance matrix
 #OUTPCA out_pca.dat  # Principal components in column-order, PC1, PC2, ...   
 #OUTPCMARKER _dista #PC1, PC2, PC3, and so on will be output as named pc1"OUTPC".dat pc2"OUTPC".dat ...
-OUTPCMARKER _coord #PC1, PC2, PC3, and so on will be output as named pc1"OUTPC".dat pc2"OUTPC".dat ...
+OUTPCMARKER _phipsi #PC1, PC2, PC3, and so on will be output as named pc1"OUTPC".dat pc2"OUTPC".dat ...
 
 # infomation
 NUMOFSTRU 78 
+
 #NUMOFCOMP 78   #dimensinality included in one structure
-NUMOFCOMP 39   #dimensinality included in one structure
+#NUMOFCOMP 39   #dimensinality included in one structure
+NUMOFCOMP 26   #dimensinality included in one structure
+
 
 
