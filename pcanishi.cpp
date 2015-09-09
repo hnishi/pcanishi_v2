@@ -150,7 +150,7 @@ int pcanishi(  Inp_nishi inp1 ){
 	//cout<<"The eigenvector of the maximum eigenvalue\n"<<es.eigenvectors().col(dim_Q-1).transpose()<<endl;
 	//cout<<"The second eigenvalue of VCV\n"<<es.eigenvalues()[dim_Q-2]<<endl;
 	//cout<<"The eigenvector of the second eigenvalue\n"<<es.eigenvectors().col(dim_Q-2).transpose()<<endl;
-   cout<<"DRBUG: mark"<<endl;
+   //cout<<"DRBUG: mark"<<endl;
   
    ofstream ofs_eigen;
    ofs_eigen.open( outeigen.c_str() );
@@ -158,6 +158,11 @@ int pcanishi(  Inp_nishi inp1 ){
  
    for(unsigned int n=0;n<dim_Q;n++){
       ofs_eigen<<"> Eigen vector no"<<n+1<<"\n"<<es.eigenvectors().col(n).transpose()<<endl;
+   }
+   
+   ofs_eigen<<"> average Q"<<endl;
+   for(unsigned int i=0;i<dim_Q;i++){
+      ofs_eigen<<average_Q[i]<<endl;
    }
 
    ofs_eigen.close(); 
@@ -176,7 +181,7 @@ int pcanishi(  Inp_nishi inp1 ){
 	        buf_vec.push_back(average_Q[i]);
         }
 	VectorXd Q2=Map<VectorXd>(&buf_vec[0],buf_vec.size());
-	delete[] average_Q;
+	//delete[] average_Q;
 	//cout<<"Vector Q2 was set"<<endl;
 
    double c1[frame]; 
