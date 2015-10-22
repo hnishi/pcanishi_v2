@@ -8,8 +8,8 @@
 # input
 #REFPDBNAME  ../mdx.in.pdb
 #COD1   ../mdx.crd
-REFPDBNAME  ../samp/for_rmsd/traj/crystal_1st.pdb
-COD1   ../samp/for_rmsd/traj/md_small.crd
+REFPDBNAME  ../../initial.pdb
+COD1  /work1/hnishi/dockingMD/nissi_gbsa/analysis/nishiTRR/128390.gcod  
 #COD2   ../samp/md_npt_10.cod
 #COD3   ../samp/npt_02.cod
 #COD2   ../samp/for_rmsd/traj/md_small.crd
@@ -24,10 +24,10 @@ STRIDE 1   # mabiki
 STARTFRAME  1
 
 # selection
-PCAATOM  ca  # all: all atoms in pdb, protein: atoms without solvent (resn WAT, CIP and CIM), heavy: heavy atoms, ca: CA (atom name) atoms in mainchain, mainchain: CA, N, C and O atoms in mainchain 
-STARTCHAIN B space  B  # space; white space " " can be set using keyword "space" 
-STARTRES  210  #1  # 210
-ENDCHAIN B space   B  # space; white space " " can be set using keyword "space" 
-ENDRES 222  #234  # 222
-SUPERPBASE  YES
+PCAATOM  mainchain  # all: all atoms in pdb, protein: atoms without solvent (resn WAT, CIP and CIM), heavy: heavy atoms, ca: CA (atom name) atoms in mainchain, mainchain: CA, N, C and O atoms in mainchain 
+STARTCHAIN A  # space; white space " " can be set using keyword "space" 
+STARTRES  1    #1  # 210
+ENDCHAIN A  # space; white space " " can be set using keyword "space" 
+ENDRES 9   #234  # 222
+SUPERPBASE  NO 
 
