@@ -45,6 +45,7 @@ int main(int argc, char *argv[]){
 	tra_nishi* tra1;
 	tra1 = new tra_nishi(codname.c_str(), pdbname.c_str(), stride, pcaatom);
         tra1->fix_cod(40.2796,40.2796,40.2796);
+        tra1->write_cod( "out_traj.pdb", 10);
 	cout<<"TOTAL FRAME = "<<tra1->total_step<<endl;
 	cout<<"TOTAL ATOM = "<<tra1->pdb1->total_atom<<endl;
 	cout<<"TOTAL SELECTED ATOM = "<<tra1->total_sel<<endl;

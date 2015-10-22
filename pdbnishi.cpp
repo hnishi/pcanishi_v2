@@ -76,9 +76,10 @@ pdb_nishi::pdb_nishi(const char *pdbname){
 		//strncpy(bfchai, &buf1[21], 1);
 		//if(bfchai) sscanf(buf2,"%s",bfchai);
 		//else bfchai[0] = ' ';
-		strncpy(buf2, &buf1[21], 1); buf2[1]='\0';
+		strncpy(buf2, buf1+21, 1); buf2[1]='\0';
+		//strncpy(buf2, &buf1[21], 1); buf2[1]='\0';
 		//if(*buf2) cout<<buf2<<"ARUYO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
-		sscanf(buf2,"%c",bfchai);
+		sscanf(buf2,"%s",bfchai);
 		//if(bfchai[0]=='\0') cout<<"NULL\n";
 		//else cout<<"bfchai= "<<bfchai<<"  ,endl\n";
 		//bfchai[1]=' ';

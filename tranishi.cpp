@@ -371,7 +371,7 @@ int tra_nishi::fix_cod_npt(){
 		//cout<<pdb1->chai[qqq].c_str()<<" "<<pdb1->chai[qqq-1].c_str()<<endl;	
 		if( pdb1->chai[qqq] != pdb1->chai[qqq-1])continue;
                 rdiff = cordx[n*total_sel + ccc]-cordx[n*total_sel + ccc-1];
-		//cout<<"rdiff of x = "<<rdiff<<endl;
+		cout<<"rdiff of x = "<<rdiff<<endl;
                 //rdiff = cordx[n*total_sel + ccc]-cordx[n*total_sel + ccc-pdb1->total_atom];
                 if(rdiff>=0){ imove = int(rdiff/fxcell+0.5); }
                 else{ imove = int(rdiff/fxcell-0.5); }
