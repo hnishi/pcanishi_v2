@@ -81,7 +81,7 @@ int main(int argc, char *argv[]){
 */
    cout<<"\n--- ATOM SELECTION --- \n";
    int rej_ca=0, rej_h=0, rej_wat=0, rej_cim=0, rej_cip=0, rej_mainchain=0;
-   int rtrn_sel, count=0, start_sel = 0, end_sel = 0;
+   int rtrn_sel, count=0, start_sel = -1, end_sel = 0;
    vector<double> vec_ref;
       for( int i=0;(signed)i<(signed)tra1->pdb1->total_atom;i++){
       //for( int i=intra_start;i<=intra_end;i++){
@@ -89,9 +89,9 @@ int main(int argc, char *argv[]){
 	 if( i>=intra_start && i<=intra_end ){
 	    switch( rtrn_sel ){
 	    case 0: 
-	       if( start_sel == 0){
+	       if( start_sel == -1){
 	          start_sel = count;
-		  tra1->pdb1->disp_line(i);
+		  //tra1->pdb1->disp_line(i);
    	       }
 	       end_sel = count ;
 	       tra1->pdb1->disp_line(i);
@@ -223,6 +223,7 @@ flag100:
    }else{
       delete tra1;
       tra1 = new tra_nishi(codname.c_str(), pdbname.c_str(), stride, pcaatom);
+      tra1->fix_cod(40.2796,40.2796,40.2796);
       goto flag100;
    }
    //unsigned int dim_0 = end_sel - start_sel +1;

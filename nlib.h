@@ -38,7 +38,6 @@ protected:
         int bfanum,bfrnum;
         float bfcoox,bfcooy,bfcooz,bfoccu,bftemf;
         char bfreco[7],bfatmn[5],bfresn[5],bfchai[2],bfelem[5];
-	//char bfreco[9],bfatmn[9],bfresn[9],bfchai[9],bfelem[9];
 public:
         vector<int> anum,rnum; // pdb elements
         vector<double> coox,cooy,cooz,occu,temf; // pdb elements
