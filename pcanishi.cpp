@@ -23,6 +23,7 @@ int pcanishi(  Inp_nishi inp1 ){
  * 
  */
    cout<<endl<<"--- INPUT INFORMATION --- \n";
+   string fn_prob = inp1.read("FN_PROB"); // coord.dat   #this file should include one dimensional data for PCA
    string infile = inp1.read("IHFILE"); // coord.dat   #this file should include one dimensional data for PCA
    //# output
    string outeigen = inp1.read("OUTEIGEN"); // out_eigen.txt
@@ -54,6 +55,31 @@ int pcanishi(  Inp_nishi inp1 ){
       cout<<"program ended"<<endl;
       return 2;
    }
+   ifs.close();
+   //######### READ FN_PROB ################
+   ifstream ifs2( fn_prob.c_str() ); // ifstream cannot handle type string (filename); it must be char*
+   vector<double> prob;
+   double sum_prob = 0;
+   if( fn_prob == "NO"|| fn_prob == "no" || ifs2.fail()){//error handling
+       cout<<"Your fn_prob: "<<fn_prob<<endl;
+       cout<<"No weight assigned"<<endl;
+       for(unsigned int i=0;i<numofstru;i++){
+           prob.push_back(1);
+       }
+       sum_prob = numofstru;
+   }else{
+   while( true ){
+      ifs2 >> buf_double;
+      if ( ifs2.eof() ) break;
+      sum_prob += buf_double;
+      prob.push_back(buf_double);
+
+   }}
+   cout<<"prob[.size()-1] = "<<prob[prob.size()-1]<<endl;
+   cout<<"prob[.size()-2] = "<<prob[prob.size()-2]<<endl;
+   cout<<"prob[0] = "<<prob[0]<<endl;
+   cout<<"Total num. of structures of probability data  = "<<prob.size()<<endl;
+   cout<<"sum_prob[] = "<<sum_prob<<endl;
 
 /* ********\\
  * 3-1   create vector Q = (q1x,q1y,q1z,q2x,...,q20z) 
@@ -85,20 +111,22 @@ int pcanishi(  Inp_nishi inp1 ){
    }
    for(unsigned int n=0;n<frame;n++){
       for(unsigned int i=0;i<dim_Q;i++){
-         average_Q[i] += vec[i+n*dim_Q];
+         average_Q[i] += vec[i+n*dim_Q]*prob[n];
 			//cerr<<average_Q[i]<<" ";
 			//cout<<"average_Q["<<i<<"] = "<<average_Q[i]<<endl;
 	 for(unsigned int j=0;j<dim_Q;j++){
-	    average_QQ[ j + i * dim_Q ] += vec[j+n*dim_Q] * vec[i+n*dim_Q];  // 
+	    average_QQ[ j + i * dim_Q ] += vec[j+n*dim_Q] * vec[i+n*dim_Q]*prob[n];  // 
          }
       }
    }
         for(unsigned int i=0;i<dim_Q;i++){
-                average_Q[i] = average_Q[i] / frame;
+                //average_Q[i] = average_Q[i] / frame;
+                average_Q[i] = average_Q[i] / sum_prob;
 		//cerr<<"average_Q["<<i<<"] = "<<average_Q[i]<<endl;
         }
         for(unsigned int i=0;i<dim_Q*dim_Q;i++){
-                average_QQ[i] = average_QQ[i] / frame;
+                //average_QQ[i] = average_QQ[i] / frame;
+                average_QQ[i] = average_QQ[i] / sum_prob;
 		//cout<<"average_QQ["<<i<<"] = "<<average_QQ[i]<<endl;
         }
 	//delete[] Q;

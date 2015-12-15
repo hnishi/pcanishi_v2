@@ -5,7 +5,7 @@ using namespace std;
 int pcanishi(Inp_nishi);
 
 int main(int argc, char *argv[]){
-  cout<<"Version info. pcanishi v2.2   \n";
+  cout<<"Version info. pcanishi v3.0   \n";
 // ##################### ARGUMENT HANDLING ##########################
 // argv[1]: input parameter file
   if( argv[1]==NULL ){
